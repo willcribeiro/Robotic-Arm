@@ -1,2 +1,2 @@
 # Robotic-Arm
-repository for a controler robotc arm AL5D using Python
+repository for controlling robotc arm AL5D using Python
