@@ -21,6 +21,7 @@
 
 from ufrn_al5d import RoboticArmAL5D
 import time
+import keyboard
 
 #DEF BASE
 base = 0
@@ -64,6 +65,12 @@ home = '#0P1500#1P1500#2P1500#3P1500#4P1500T1500'
 arm = RoboticArmAL5D(properties)
 arm.setup()
 
+eixo0 = 1500
+eixo1 = 1500
+eixo2 = 1500
+eixo3 = 1500
+eixo4 = 1500
+
 if(arm.abre_porta() == -1):
     print ('Erro abrindo a porta serial /dev/ttyS0\nAbortando o programa...\n')
 else: 
@@ -74,20 +81,90 @@ else:
         print(' envio para Home: %s \n' % (home))
     except:
          print('Problema no envio do comando\nAbortando o programa...')
+   ''' while True:
+        if keyboard.is_pressed('a'):
+            print('entrei1')
+            time.sleep(0.3)
+        else:
+            print('entrei2')
+            time.sleep(0.3)'''
     while True:
-        Mov = input("Insert the comand\n")
-        if (Mov == 'H'):
+
+        X = input("Insert the comand\n")
+        if (X == 'H'):
             try:
                 arm.envia_comando(home)
                 print(' Send for the position : %s \n' % (home))
             except: 
                 print('Erro\nKill de program...')
-        else:
+        #Incremento da base
+        elif (X == 'Q'):
+            teta = input("Insert the valor\n")
+            P = (P/0.09) + 500
             try:
+                eixo0 =  P             
+
+                Mov = '#0P%s#1P%s#2P%s#3P%s#4P%sT1500' % (eixo0,eixo1,eixo2,eixo3,eixo4)
                 arm.envia_comando(Mov)
-                print(' Send for the position : %s \n' % (home))
+                print(' Send for the position : %s \n' % (Mov))
             except:
                 print('Erro\nKill de program...')
-        
+         #Incremento da SHOULDER
+        elif (X == 'W' or X =='S'):
+            P = input("Insert the valor\n")
+            try:
+                if (X == 'W'):
+                    eixo1 = eixo1 + P
+                else:
+                    eixo1 = eixo1 - P
+
+                Mov = '#0P%s#1P%s#2P%s#3P%s#4P%sT1500' % (eixo0,eixo1,eixo2,eixo3,eixo4)
+                arm.envia_comando(Mov)
+                print(' Send for the position : %s \n' % (Mov))
+            except:
+                print('Erro\nKill de program...')
+        #Incremento da ELBOW
+        elif (X == 'Q' or X == 'E'):
+            P = input("Insert the valor\n")
+            try:
+                if (X == 'Q'):
+                    eixo2 = eixo2 + P
+                else:
+                    eixo2 = eixo2 - P
+
+                Mov = '#0P%s#1P%s#2P%s#3P%s#4P%sT1500' % (eixo0,eixo1,eixo2,eixo3,eixo4)
+                arm.envia_comando(Mov)
+                print(' Send for the position : %s \n' % (Mov))
+            except:
+                print('Erro\nKill de program...')
+        #Incremento da WRIST
+        elif (X == 'Z' or X == 'C'):
+            P = input("Insert the valor\n")
+            try:
+                if (X == 'Z'):
+                    eixo3 = eixo3 + P
+                else:
+                    eixo3 = eixo3 - P
+
+                Mov = '#0P%s#1P%s#2P%s#3P%s#4P%sT1500' % (eixo0,eixo1,eixo2,eixo3,eixo4)
+                arm.envia_comando(Mov)
+                print(' Send for the position : %s \n' % (Mov))
+            except:
+                print('Erro\nKill de program...')
+         #Incremento da GRIPPERT
+        elif (X == 'R' or X == 'F'):
+            P = input("Insert the valor\n")
+            try:
+                if (X == 'R'):
+                    eixo4 = eixo4 + P
+                else:
+                    eixo4 = eixo4 - P
+
+                Mov = '#0P%s#1P%s#2P%s#3P%s#4P%sT1500' % (eixo0,eixo1,eixo2,eixo3,eixo4)
+                arm.envia_comando(Mov)
+                print(' Send for the position : %s \n' % (Mov))
+            except:
+                print('Erro\nKill de program...')     
+  
     arm.fecha_porta()
     print('\nPROGRAMA DEMONSTRACAO FINALIZADO\n\n')
