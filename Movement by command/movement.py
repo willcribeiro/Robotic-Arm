@@ -81,13 +81,7 @@ else:
         print(' envio para Home: %s \n' % (home))
     except:
          print('Problema no envio do comando\nAbortando o programa...')
-   ''' while True:
-        if keyboard.is_pressed('a'):
-            print('entrei1')
-            time.sleep(0.3)
-        else:
-            print('entrei2')
-            time.sleep(0.3)'''
+  
     while True:
 
         X = input("Insert the comand\n")
@@ -98,8 +92,8 @@ else:
             except: 
                 print('Erro\nKill de program...')
         #Incremento da base
-        elif (X == 'Q'):
-            teta = input("Insert the valor\n")
+        elif (X == 0):
+            P = input("Insert the valor\n")
             P = (P/0.09) + 500
             try:
                 eixo0 =  P             
@@ -110,13 +104,11 @@ else:
             except:
                 print('Erro\nKill de program...')
          #Incremento da SHOULDER
-        elif (X == 'W' or X =='S'):
+        elif (X == 1):
             P = input("Insert the valor\n")
-            try:
-                if (X == 'W'):
-                    eixo1 = eixo1 + P
-                else:
-                    eixo1 = eixo1 - P
+            P = (P/0.09) + 500
+            try:                
+                eixo1 = P
 
                 Mov = '#0P%s#1P%s#2P%s#3P%s#4P%sT1500' % (eixo0,eixo1,eixo2,eixo3,eixo4)
                 arm.envia_comando(Mov)
@@ -124,13 +116,11 @@ else:
             except:
                 print('Erro\nKill de program...')
         #Incremento da ELBOW
-        elif (X == 'Q' or X == 'E'):
+        elif (X == 2):
             P = input("Insert the valor\n")
-            try:
-                if (X == 'Q'):
-                    eixo2 = eixo2 + P
-                else:
-                    eixo2 = eixo2 - P
+            P = (P/0.09) + 500
+            try:                
+                eixo2 = P
 
                 Mov = '#0P%s#1P%s#2P%s#3P%s#4P%sT1500' % (eixo0,eixo1,eixo2,eixo3,eixo4)
                 arm.envia_comando(Mov)
@@ -138,13 +128,11 @@ else:
             except:
                 print('Erro\nKill de program...')
         #Incremento da WRIST
-        elif (X == 'Z' or X == 'C'):
+        elif (X == 3):
             P = input("Insert the valor\n")
+            P = (P/0.09) + 500
             try:
-                if (X == 'Z'):
-                    eixo3 = eixo3 + P
-                else:
-                    eixo3 = eixo3 - P
+                eixo3 =  P
 
                 Mov = '#0P%s#1P%s#2P%s#3P%s#4P%sT1500' % (eixo0,eixo1,eixo2,eixo3,eixo4)
                 arm.envia_comando(Mov)
@@ -152,13 +140,11 @@ else:
             except:
                 print('Erro\nKill de program...')
          #Incremento da GRIPPERT
-        elif (X == 'R' or X == 'F'):
+        elif (X == 4):
             P = input("Insert the valor\n")
+            P = (P/0.09) + 500
             try:
-                if (X == 'R'):
-                    eixo4 = eixo4 + P
-                else:
-                    eixo4 = eixo4 - P
+                eixo4 =  P
 
                 Mov = '#0P%s#1P%s#2P%s#3P%s#4P%sT1500' % (eixo0,eixo1,eixo2,eixo3,eixo4)
                 arm.envia_comando(Mov)
