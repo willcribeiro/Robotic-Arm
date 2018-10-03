@@ -94,6 +94,7 @@ else:
         #Incremento da base
         elif (X == 0):
             P = input("Insert the valor\n")
+            P = P*(-1)
             P = (P/0.09) + 500
             try:
                 eixo0 =  P             
@@ -106,7 +107,7 @@ else:
          #Incremento da SHOULDER
         elif (X == 1):
             P = input("Insert the valor\n")
-            P = (P/0.09) + 500
+            P = (P/0.09) + 566.333333333
             try:                
                 eixo1 = P
 
@@ -118,6 +119,7 @@ else:
         #Incremento da ELBOW
         elif (X == 2):
             P = input("Insert the valor\n")
+            P = P*(-1)
             P = (P/0.09) + 500
             try:                
                 eixo2 = P
@@ -130,6 +132,7 @@ else:
         #Incremento da WRIST
         elif (X == 3):
             P = input("Insert the valor\n")
+            P = P + 90
             P = (P/0.09) + 500
             try:
                 eixo3 =  P
@@ -150,7 +153,20 @@ else:
                 arm.envia_comando(Mov)
                 print(' Send for the position : %s \n' % (Mov))
             except:
-                print('Erro\nKill de program...')     
-  
+                print('Erro\nKill de program...')    
+         #Incremento da fun
+        elif (X == 9):
+            while True:
+                try:
+                    Mov = '#0P1833.33333333#1P1500#2P1500#3P2500.0#4P1500T1500'
+                    arm.envia_comando(Mov)
+                    time.sleep(1)
+                    Mov = '#0P1166.66666667#1P1500#2P1500#3P500.0#4P1500T1500'  
+                    arm.envia_comando(Mov)
+                    time.sleep(1)
+                    print(' Send for the position : %s \n' % (Mov))
+                except:
+                    print('Erro\nKill de program...')             
+    
     arm.fecha_porta()
     print('\nPROGRAMA DEMONSTRACAO FINALIZADO\n\n')
