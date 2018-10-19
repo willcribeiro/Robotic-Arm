@@ -22,7 +22,7 @@
 from ufrn_al5d import RoboticArmAL5D
 import time
 import keyboard
-
+import math
 #DEF BASE
 base = 0
 #LIMITS
@@ -71,14 +71,49 @@ eixo2 = 1500
 eixo3 = 1500
 eixo4 = 1500
 
-def mov(x,y,z):
+def mov(t1,t2,t3,phy):
     try:
-        arm.envia_comando(home)
+        Mov = '#0P%s#1P%s#2P%s#3P%s#4P%sT1500' % (t1,t2,t3,phy,1500)
+        print("aaaaaaaaaaa")
+        print(t1,t2,t3,phy)
+        arm.envia_comando(Mov)
         print(' envio para Home: %s \n' % (home))
     except:
         print('Problema no envio do comando\nAbortando o programa...')
 
+def angulos (x,y,z,phi):
+    x = x - 8* (math.cos(math.radians(phi)))
+    z = z- 8*  (math.sin(math.radians(-phi)))
+    sen1 = x/math.sqrt(x**2 + y**2)
+    cos1 = y/math.sqrt(x**2 + y**2)
+    teta1 = math.degrees(math.atan2(sen1,cos1))
+   
+    delta = math.sqrt(x**2 + y**2 + (z-3)**2)
+
+    sen2 = (z-3)/math.sqrt(x**2 + y**2 + (z-3)**2)
+    cos2 = math.sqrt(x**2 + y**2)/math.sqrt(x**2 + y**2 + (z-3)**2)
+    sen22 = math.acos(-(19**2-delta**2-15**2)/(2*delta*15))
+    teta2 = math.degrees(math.atan2(sen2,cos2)+ math.acos(sen22))
     
+    sen3 = (x**2 + y**2 + (z-3)**2 - 15**2 - 19**2)/(-2*15*19)   
+    teta3 = math.degrees(math.acos(sen3))
+    print("bbbbbbbbbb")
+    print(teta1,teta2,teta3,phi)
+    teta1 = (teta1/0.09) + 566.333333333
+
+    teta2 = teta2*(-1)
+    teta2 = (teta2/0.09) + 500
+
+    teta3 = teta3 + 90
+    teta3 = (teta3/0.09) + 500
+
+    phi = (phi/0.09) + 500
+   
+    mov(teta1,teta2,teta3,phi)
+
+
+    
+    return
 
 if(arm.abre_porta() == -1):
     print ('Erro abrindo a porta serial /dev/ttyS0\nAbortando o programa...\n')
@@ -92,19 +127,25 @@ else:
          print('Problema no envio do comando\nAbortando o programa...')
   
     while True:
-        X = input("Entre com o comando desejado")
+        X = input("Entre com o comando desejado \n")
         if(X == 'pegar' or X == 'PEGAR'): #Fecha a garra
-            mov(x,y,z)
+           pass
 
         elif(X == 'SOLTAR' or X == 'soltar'): #Abrir a garra
-             mov(x,y,z)
+             pass
 
         elif(X == 'repouso' or X == 'REPOUSO'): #Ir para home
-            mov(x,y,z)
+            pass
 
-        else: #Movimentação
-            mov(x,y,z)
+        
+        elif(X == 'MOVE' or X == 'move'): #movimentacao
+            move = input() #(x,y,z,phi)
+            ax = move[0]
+            ay = move[1]
+            az = move[2]
+            aphi = move[3]
+            angulos(ax,ay,az,aphi)
 
-    
+                
     arm.fecha_porta()
     print('\nPROGRAMA DEMONSTRACAO FINALIZADO\n\n')
